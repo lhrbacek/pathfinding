@@ -32,6 +32,8 @@ public:
 
     void setState(State s);
 
+    void setPath();
+
     void draw(sf::RenderWindow &window);
 
 private:
@@ -56,6 +58,8 @@ public:
     std::optional<unsigned int> getVertex(int x, int y, sf::Vector2u windowSize) const;
 
     void removeVertex(unsigned int v);
+
+    void makePath();
 
     void draw(sf::RenderWindow &window);
 

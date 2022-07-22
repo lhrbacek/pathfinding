@@ -109,7 +109,13 @@ int main(int argc, char *argv[])
             {
                 return 0;
             }
-            // TBD
+            // TODO add another algorithms
+            else
+            {
+                std::cerr << "error, wrong chosen algorithm\n";
+                return EXIT_FAILURE;
+            }
+            grid.makePath();
 
             run = false;
         }
