@@ -68,6 +68,11 @@ void Vertex::setState(State s)
     }
 }
 
+void Vertex::setPath()
+{
+    shape.setFillColor(sf::Color(255, 127, 0));
+}
+
 void Vertex::draw(sf::RenderWindow &window)
 {
     window.draw(shape);
@@ -81,8 +86,6 @@ void Grid::init()
     {
         Vertex v;
         v.setPosition(5 + (i % sizeX) * 55, 5 + (i / sizeX) * 55);
-
-        // std::cout << (i - sizeX) << std::endl;
 
         if (i - sizeX >= 0) // top neighbor
         {
@@ -101,11 +104,6 @@ void Grid::init()
             v.neighbors.push_back(i + 1);
         }
         vertices.push_back(std::move(v));
-
-        // for (auto n : vertices.back().neighbors)
-        // {
-        //     std::cout << n << std::endl;
-        // }
     }
 
     vertices[start].setStart(true);
@@ -126,6 +124,7 @@ void Grid::setEnd(unsigned int vertex)
     end = vertex;
 }
 
+// TODO clarify magic numbers
 std::optional<unsigned int> Grid::getVertex(int x, int y, sf::Vector2u windowSize) const
 {
     if (x < 5 || y < 5)
@@ -145,9 +144,6 @@ std::optional<unsigned int> Grid::getVertex(int x, int y, sf::Vector2u windowSiz
     {
         return {};
     }
-
-    // std::cout << col << std::endl;
-    // std::cout << row << std::endl;
     return col + row * 23;
 }
 
@@ -159,6 +155,21 @@ void Grid::removeVertex(unsigned int v)
     }
     vertices[v].neighbors.clear();
     vertices[v].setRemoved(true);
+}
+
+void Grid::makePath()
+{
+    if (!(vertices[end].predecessor))
+    {
+        return;
+    }
+
+    unsigned int v = *(vertices[end].predecessor);
+    while (v != start)
+    {
+        vertices[v].setPath();
+        v = *(vertices[v].predecessor);
+    }
 }
 
 void Grid::draw(sf::RenderWindow &window)

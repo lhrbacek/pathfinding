@@ -1,3 +1,4 @@
+#include <cstring>
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -10,8 +11,14 @@ std::tuple<int, int> getGridSize(const sf::RenderWindow &window)
     return {(windowSize.x - 5) / 55, (windowSize.y - 5) / 55};
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    if (argc != 2)
+    {
+        std::cerr << "error, no algorithm chosen\n";
+        return EXIT_FAILURE;
+    }
+
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Pathfinding");
     window.setFramerateLimit(30);
     window.setKeyRepeatEnabled(false);
@@ -94,7 +101,22 @@ int main()
 
         if (run)
         {
-            bfs(grid, window);
+            if (strcmp("bfs", argv[1]) == 0)
+            {
+                bfs(grid, window);
+            }
+            else if (strcmp("dfs", argv[1]) == 0)
+            {
+                return 0;
+            }
+            // TODO add another algorithms
+            else
+            {
+                std::cerr << "error, wrong chosen algorithm\n";
+                return EXIT_FAILURE;
+            }
+            grid.makePath();
+
             run = false;
         }
 
