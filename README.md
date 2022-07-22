@@ -11,6 +11,8 @@ After start, vertices change their colours one by one as they are searched, thus
 
 To use this program, user has to have SFML library installed. (https://www.sfml-dev.org/)
 
+Tested on Fedora 35.
+
 ## Compilation
 Get the repository and run `make` in terminal.
 
