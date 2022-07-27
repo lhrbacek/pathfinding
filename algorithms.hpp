@@ -5,6 +5,8 @@
 
 void bfs(Grid &g, sf::RenderWindow &window);
 
+bool dfsRec(unsigned int v, Grid &g, sf::RenderWindow &window);
+
 void dfs(Grid &g, sf::RenderWindow &window);
 
 #endif // ALGORITHMS

@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     }
 
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Pathfinding");
-    window.setFramerateLimit(30);
+    window.setFramerateLimit(15);
     window.setKeyRepeatEnabled(false);
 
     auto [gridSizeX, gridSizeY] = getGridSize(window);
@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
             }
             else if (strcmp("dfs", argv[1]) == 0)
             {
-                return 0;
+                dfs(grid, window);
             }
             // TODO add another algorithms
             else
