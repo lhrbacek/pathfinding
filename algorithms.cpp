@@ -44,14 +44,10 @@ void bfs(Grid &g, sf::RenderWindow &window)
 
 bool dfsRec(unsigned int v, Grid &g, sf::RenderWindow &window)
 {
-    // unsigned int v = queue.front();
-    // queue.pop();
-
     for (unsigned int n : g.vertices[v].neighbors)
     {
         if (g.vertices[n].state == State::notVisited)
         {
-            // queue.push(n);
             g.vertices[n].setState(State::visited);
             g.vertices[n].predecessor = v;
             if (g.vertices[g.end].predecessor)
@@ -81,9 +77,6 @@ bool dfsRec(unsigned int v, Grid &g, sf::RenderWindow &window)
 
 void dfs(Grid &g, sf::RenderWindow &window)
 {
-    std::queue<unsigned int> queue;
-    queue.push(g.start);
     g.vertices[g.start].setState(State::visited);
-
     dfsRec(g.start, g, window);
 }
