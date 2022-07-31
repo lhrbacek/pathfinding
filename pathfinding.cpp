@@ -1,4 +1,6 @@
 #include "pathfinding.hpp"
+
+#include <cmath>
 #include <iostream>
 
 void Vertex::setPosition(unsigned int x, unsigned int y)
@@ -12,10 +14,12 @@ void Vertex::setStart(bool set)
     if (set)
     {
         shape.setFillColor(sf::Color::Green);
+        distance = 0;
     }
     else
     {
         shape.setFillColor(sf::Color::White);
+        distance = std::numeric_limits<int>::max();
     }
 }
 
@@ -157,6 +161,24 @@ void Grid::removeVertex(unsigned int v)
     vertices[v].setRemoved(true);
 }
 
+unsigned int Grid::manhattanDistance(unsigned int v1, unsigned int v2)
+{
+    int x1 = v1 % sizeX;
+    int y1 = v1 / sizeX;
+    int x2 = v2 % sizeX;
+    int y2 = v2 / sizeX;
+    return std::abs(x1 - x2) + std::abs(y1 - y2);
+}
+
+float Grid::euclideanDistance(unsigned int v1, unsigned int v2)
+{
+    int x1 = v1 % sizeX;
+    int y1 = v1 / sizeX;
+    int x2 = v2 % sizeX;
+    int y2 = v2 / sizeX;
+    return std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
 void Grid::makePath()
 {
     if (!(vertices[end].predecessor))
@@ -170,6 +192,7 @@ void Grid::makePath()
         vertices[v].setPath();
         v = *(vertices[v].predecessor);
     }
+    std::cout << vertices[end].distance << std::endl;
 }
 
 void Grid::draw(sf::RenderWindow &window)

@@ -1,6 +1,7 @@
 #ifndef PATHFINDING_H
 #define PATHFINDING_H
 
+#include <limits>
 #include <optional>
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -21,6 +22,7 @@ public:
     bool end = false;
     bool removed = false;
     std::optional<unsigned int> predecessor;
+    unsigned int distance = std::numeric_limits<int>::max();
 
     void setPosition(unsigned int x, unsigned int y);
 
@@ -58,6 +60,10 @@ public:
     std::optional<unsigned int> getVertex(int x, int y, sf::Vector2u windowSize) const;
 
     void removeVertex(unsigned int v);
+
+    unsigned int manhattanDistance(unsigned int v1, unsigned int v2);
+
+    float euclideanDistance(unsigned int v1, unsigned int v2);
 
     void makePath();
 
