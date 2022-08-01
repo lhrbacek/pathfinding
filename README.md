@@ -35,3 +35,7 @@ Start: Press "Space".
 ![bfs1](bfs1.png)
 ![bfs2](bfs2.png)
 ![astar](https://github.com/lhrbacek/pathfinding/blob/dev/astar.mov)
+
+
+https://user-images.githubusercontent.com/83958728/182250666-22bc07e9-1afa-4bde-bef8-0207551e2619.mov
+
