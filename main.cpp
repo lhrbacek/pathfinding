@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     }
 
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Pathfinding");
-    window.setFramerateLimit(15);
+    window.setFramerateLimit(20);
     window.setKeyRepeatEnabled(false);
 
     auto [gridSizeX, gridSizeY] = getGridSize(window);
@@ -108,6 +108,14 @@ int main(int argc, char *argv[])
             else if (strcmp("dfs", argv[1]) == 0)
             {
                 dfs(grid, window);
+            }
+            else if (strcmp("greedy", argv[1]) == 0)
+            {
+                greedy(grid, window);
+            }
+            else if (strcmp("astar", argv[1]) == 0)
+            {
+                AStar(grid, window);
             }
             // TODO add another algorithms
             else

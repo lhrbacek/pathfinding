@@ -3,8 +3,8 @@
 
 #include <limits>
 #include <optional>
-#include <vector>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 enum State
 {
@@ -61,15 +61,15 @@ public:
 
     void removeVertex(unsigned int v);
 
-    unsigned int manhattanDistance(unsigned int v1, unsigned int v2);
-
-    float euclideanDistance(unsigned int v1, unsigned int v2);
-
     void makePath();
 
     void draw(sf::RenderWindow &window);
 
     Grid(int gridSizeX, int gridSizeY);
 };
+
+unsigned int manhattanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX);
+
+float euclideanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX);
 
 #endif // PATHFINDING_H

@@ -83,42 +83,70 @@ void dfs(Grid &g, sf::RenderWindow &window)
     dfsRec(g.start, g, window);
 }
 
-// void cmp();
+float heuristic(Grid &g, unsigned int v1, enum heuristic h)
+{
+    if (h == heuristic::greedyH)
+    {
+        return euclideanDistance(v1, g.end, g.sizeX);
+    }
+    else // if (h == heuristic::astarH)
+    {
+        return g.vertices[v1].distance + euclideanDistance(v1, g.end, g.sizeX);
+    }
+}
 
-// void bestFirstSearch(Grid &g, sf::RenderWindow &window, float (*heuristic)(unsigned int))
-// {
-//     std::priority_queue<std::tuple<unsigned int, float>> queue;
-//     queue.emplace((g.start, heuristic(g.start)));
-//     g.vertices[g.start].setState(State::visited);
+void greedy(Grid &g, sf::RenderWindow &window)
+{
+    bestFirstSearch(g, window, heuristic::greedyH);
+}
 
-//     while (!queue.empty())
-//     {
-//         auto [v, d] = queue.top();
-//         queue.pop();
+void AStar(Grid &g, sf::RenderWindow &window)
+{
+    bestFirstSearch(g, window, heuristic::astarH);
+}
 
-//         for (unsigned int n : g.vertices[v].neighbors)
-//         {
-//             if (g.vertices[n].state == State::notVisited)
-//             {
-//                 queue.emplace(n, heuristic(n));
-//                 g.vertices[n].setState(State::visited);
-//                 g.vertices[n].predecessor = v;
+void bestFirstSearch(Grid &g, sf::RenderWindow &window, enum heuristic h)
+{
+    auto cmp = [](std::tuple<unsigned int, float> left, std::tuple<unsigned int, float> right)
+    { return std::get<1>(left) > std::get<1>(right); };
 
-//                 window.clear();
-//                 g.draw(window);
-//                 window.display();
-//             }
-//         }
+    std::priority_queue<std::tuple<unsigned int, float>,
+                        std::vector<std::tuple<unsigned int, float>>,
+                        decltype(cmp)>
+        queue(cmp);
 
-//         g.vertices[v].setState(State::finished);
+    queue.emplace(g.start, heuristic(g, g.start, h));
+    g.vertices[g.start].setState(State::visited);
 
-//         window.clear();
-//         g.draw(window);
-//         window.display();
+    while (!queue.empty())
+    {
+        auto [v, _] = queue.top();
+        queue.pop();
 
-//         if (g.vertices[g.end].predecessor)
-//         {
-//             return;
-//         }
-//     }
-// }
+        for (unsigned int n : g.vertices[v].neighbors)
+        {
+            if (g.vertices[v].distance + 1 < g.vertices[n].distance)
+            {
+                g.vertices[n].setState(State::visited);
+                g.vertices[n].predecessor = v;
+                g.vertices[n].distance = g.vertices[v].distance + 1;
+                queue.emplace(n, heuristic(g, n, h));
+
+                window.clear();
+                g.draw(window);
+                window.display();
+            }
+        }
+
+        g.vertices[v].setState(State::finished);
+
+        window.clear();
+        g.draw(window);
+        window.display();
+
+        if (g.vertices[g.end].predecessor)
+        {
+            return;
+        }
+    }
+}

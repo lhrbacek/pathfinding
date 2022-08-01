@@ -161,24 +161,6 @@ void Grid::removeVertex(unsigned int v)
     vertices[v].setRemoved(true);
 }
 
-unsigned int Grid::manhattanDistance(unsigned int v1, unsigned int v2)
-{
-    int x1 = v1 % sizeX;
-    int y1 = v1 / sizeX;
-    int x2 = v2 % sizeX;
-    int y2 = v2 / sizeX;
-    return std::abs(x1 - x2) + std::abs(y1 - y2);
-}
-
-float Grid::euclideanDistance(unsigned int v1, unsigned int v2)
-{
-    int x1 = v1 % sizeX;
-    int y1 = v1 / sizeX;
-    int x2 = v2 % sizeX;
-    int y2 = v2 / sizeX;
-    return std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-}
-
 void Grid::makePath()
 {
     if (!(vertices[end].predecessor))
@@ -207,4 +189,22 @@ Grid::Grid(int gridSizeX, int gridSizeY)
     : sizeX(gridSizeX), sizeY(gridSizeY), end(gridSizeX * gridSizeY - 1)
 {
     init();
+}
+
+unsigned int manhattanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX)
+{
+    int x1 = v1 % gridSizeX;
+    int y1 = v1 / gridSizeX;
+    int x2 = v2 % gridSizeX;
+    int y2 = v2 / gridSizeX;
+    return std::abs(x1 - x2) + std::abs(y1 - y2);
+}
+
+float euclideanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX)
+{
+    int x1 = v1 % gridSizeX;
+    int y1 = v1 / gridSizeX;
+    int x2 = v2 % gridSizeX;
+    int y2 = v2 / gridSizeX;
+    return std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
