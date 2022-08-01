@@ -1,4 +1,6 @@
 #include "pathfinding.hpp"
+
+#include <cmath>
 #include <iostream>
 
 void Vertex::setPosition(unsigned int x, unsigned int y)
@@ -12,10 +14,12 @@ void Vertex::setStart(bool set)
     if (set)
     {
         shape.setFillColor(sf::Color::Green);
+        distance = 0;
     }
     else
     {
         shape.setFillColor(sf::Color::White);
+        distance = std::numeric_limits<int>::max();
     }
 }
 
@@ -170,6 +174,7 @@ void Grid::makePath()
         vertices[v].setPath();
         v = *(vertices[v].predecessor);
     }
+    std::cout << vertices[end].distance << std::endl;
 }
 
 void Grid::draw(sf::RenderWindow &window)
@@ -184,4 +189,22 @@ Grid::Grid(int gridSizeX, int gridSizeY)
     : sizeX(gridSizeX), sizeY(gridSizeY), end(gridSizeX * gridSizeY - 1)
 {
     init();
+}
+
+unsigned int manhattanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX)
+{
+    int x1 = v1 % gridSizeX;
+    int y1 = v1 / gridSizeX;
+    int x2 = v2 % gridSizeX;
+    int y2 = v2 / gridSizeX;
+    return std::abs(x1 - x2) + std::abs(y1 - y2);
+}
+
+float euclideanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX)
+{
+    int x1 = v1 % gridSizeX;
+    int y1 = v1 / gridSizeX;
+    int x2 = v2 % gridSizeX;
+    int y2 = v2 / gridSizeX;
+    return std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }

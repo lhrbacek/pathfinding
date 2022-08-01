@@ -1,9 +1,10 @@
 #ifndef PATHFINDING_H
 #define PATHFINDING_H
 
+#include <limits>
 #include <optional>
-#include <vector>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 enum State
 {
@@ -21,6 +22,7 @@ public:
     bool end = false;
     bool removed = false;
     std::optional<unsigned int> predecessor;
+    unsigned int distance = std::numeric_limits<int>::max();
 
     void setPosition(unsigned int x, unsigned int y);
 
@@ -65,5 +67,9 @@ public:
 
     Grid(int gridSizeX, int gridSizeY);
 };
+
+unsigned int manhattanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX);
+
+float euclideanDistance(unsigned int v1, unsigned int v2, unsigned int gridSizeX);
 
 #endif // PATHFINDING_H
