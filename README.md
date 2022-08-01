@@ -34,3 +34,4 @@ Start: Press "Space".
 ## Examples
 ![bfs1](bfs1.png)
 ![bfs2](bfs2.png)
+![astar](astar.webm)
